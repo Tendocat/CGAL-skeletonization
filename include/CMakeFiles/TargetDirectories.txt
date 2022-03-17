@@ -1,0 +1,3 @@
+/media/tendocat/kek/squelettisation/include/CMakeFiles/rebuild_cache.dir
+/media/tendocat/kek/squelettisation/include/CMakeFiles/edit_cache.dir
+/media/tendocat/kek/squelettisation/include/CMakeFiles/sqcheck.dir
