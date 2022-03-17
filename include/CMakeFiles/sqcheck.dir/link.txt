@@ -1,1 +1,0 @@
-/usr/bin/c++ -Wall -Wextra CMakeFiles/sqcheck.dir/src/main.cpp.o -o sqcheck 
