@@ -1,8 +1,14 @@
 cmake_minimum_required(VERSION 3.6)
 
-set(CMAKE_CXX_FLAGS "-Wall -Wextra")
-set(CMAKE_CXX_FLAGS_RELEASE "-O3")
-
+if (${CMAKE_CXX_COMPILER_ID} "GNU")
+    set(CMAKE_CXX_FLAGS "-Wall -Wextra")
+    set(CMAKE_CXX_FLAGS_RELEASE "-O3")
+elseif(${CMAKE_CXX_COMPILER_ID} "MSVC") # Not tested yet
+    set(CMAKE_CXX_FLAGS "/Wall")
+    set(CMAKE_CXX_FLAGS_RELEASE "/Oi2") # Optimise for speed
+else()
+    message(INFO "You're compiler isn't supported for optimisation and warnings")
+endif()
 project(sqcheck)
 
 
