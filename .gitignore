@@ -2,4 +2,5 @@
 build*/**
 externals/**
 .idea
+out/*
 
