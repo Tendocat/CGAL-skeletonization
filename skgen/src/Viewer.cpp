@@ -1,6 +1,11 @@
 #include <Viewer.h>
 
-Viewer::Viewer(const std::string& title, int width, int height, bool show_imgui = true)
+Viewer::Viewer(const std::string& title, int width, int height, bool showgui) : 
+    pmp::MeshViewer(title.c_str(),
+                    width, 
+                    height,
+                    showgui)
+
 {
     // Update scene center and bounds
     pmp::BoundingBox bb = mesh_.bounds();

@@ -10,7 +10,8 @@
 class Viewer : public pmp::MeshViewer
 {
 public:
-	Viewer(const std::string& title, int width, int height, bool show_imgui = true);
+	Viewer() = delete;
+	Viewer(const std::string& title, int width, int height, bool showgui = true);
 
 	void process_imgui();
 
