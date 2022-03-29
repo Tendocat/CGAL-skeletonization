@@ -43,6 +43,8 @@ void Viewer::process_imgui()
     {
         std::cout << "Selected filename" << fb.GetSelected().string() << std::endl;
         mesh_.read(fb.GetSelected().string());
+        pmp::BoundingBox bb = mesh_.bounds();
+        set_scene((pmp::vec3)bb.center(), 0.5 * bb.size());
         fb.ClearSelected();
     }
     update_mesh();
