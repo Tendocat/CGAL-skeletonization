@@ -24,12 +24,28 @@ Viewer::Viewer(const std::string& title, int width, int height, bool showgui) :
     update_mesh();
 
     mesh_.set_crease_angle(crease_angle_);
+
+    fb.SetTitle("Choose mesh file");
+    fb.SetTypeFilters({ ".obj" });
+
 }
 
 void Viewer::process_imgui()
 {
-    pmp::MeshViewer::process_imgui();
+    // pmp::MeshViewer::process_imgui();
 
+    if(ImGui::Button("open file dialog"))
+        fb.Open();
+
+    fb.Display();
+
+    if(fb.HasSelected())
+    {
+        std::cout << "Selected filename" << fb.GetSelected().string() << std::endl;
+        mesh_.read(fb.GetSelected().string());
+        fb.ClearSelected();
+    }
+    update_mesh();
     /* ! STUDENTS TODO ! */
     // Add a combobox and select the mesh to display
 }
