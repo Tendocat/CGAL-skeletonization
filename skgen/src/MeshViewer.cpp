@@ -1,6 +1,6 @@
-#include <Viewer.h>
+#include <MeshViewer.hpp>
 
-Viewer::Viewer(const std::string& title, int width, int height, bool showgui) : 
+MeshViewer::MeshViewer(const std::string& title, int width, int height, bool showgui) : 
     pmp::MeshViewer(title.c_str(),
                     width, 
                     height,
@@ -30,7 +30,7 @@ Viewer::Viewer(const std::string& title, int width, int height, bool showgui) :
 
 }
 
-void Viewer::process_imgui()
+void MeshViewer::process_imgui()
 {
     // pmp::MeshViewer::process_imgui();
 
@@ -48,6 +48,5 @@ void Viewer::process_imgui()
         fb.ClearSelected();
     }
     update_mesh();
-    /* ! STUDENTS TODO ! */
-    // Add a combobox and select the mesh to display
+    // TODO ...
 }

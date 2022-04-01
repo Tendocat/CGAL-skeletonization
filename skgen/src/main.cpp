@@ -1,11 +1,8 @@
 #include <iostream>
 
-#include <Viewer.h>
+#include <MeshViewer.hpp>
 #include <SimpleCommandLine.h>
-#include <filesystem>
 #include <string>
-
-namespace fs = std::filesystem;
 
 int main(int argc, char** argv)
 {
@@ -21,9 +18,7 @@ int main(int argc, char** argv)
     auto w = parser.get<cli::NumericalBase<int, 10>>("x");
     auto h = parser.get<cli::NumericalBase<int, 10>>("y");
 
-
-    fs::path exec(argv[0]);
-    Viewer viewer(exec.stem().filename().string(), w.value, h.value);
+    MeshViewer viewer("SKgen", w.value, h.value);
     if (!mesh.empty())
         viewer.load_mesh(mesh.c_str());
     viewer.run();
