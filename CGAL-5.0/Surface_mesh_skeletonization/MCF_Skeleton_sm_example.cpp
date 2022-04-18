@@ -54,20 +54,25 @@ int main(int argc, char* argv[])
   std::cout << "Number of edges of the skeleton: " << boost::num_edges(skeleton) << "\n";
 
   // Output all the edges of the skeleton.
-  std::ofstream output("skel-sm.cgal");
+  std::ofstream output("skel-sm.obj");
   for(Skeleton_edge e : CGAL::make_range(edges(skeleton)))
   {
     const Point& s = skeleton[source(e, skeleton)].point;
     const Point& t = skeleton[target(e, skeleton)].point;
-    output << "2 "<< s << " " << t << "\n";
+    output << "v " << s << "\n";
+    output << "v " << t << "\n";
+  }
+  for (int i = 1; i<boost::num_edges(skeleton)*2; i+=2)
+  {
+    output << "l "<< i << " " << i+1 << "\n";
   }
   output.close();
 
-  // Output skeleton points and the corresponding surface points
-  output.open("correspondance-sm.cgal");
-  for(Skeleton_vertex v : CGAL::make_range(vertices(skeleton)))
-    for(vertex_descriptor vd : skeleton[v].vertices)
-      output << "2 " << skeleton[v].point << "  " << get(CGAL::vertex_point, tmesh, vd)  << "\n";
+  // // Output skeleton points and the corresponding surface points
+  // output.open("correspondance-sm.cgal");
+  // for(Skeleton_vertex v : CGAL::make_range(vertices(skeleton)))
+  //   for(vertex_descriptor vd : skeleton[v].vertices)
+  //     output << "2 " << skeleton[v].point << "  " << get(CGAL::vertex_point, tmesh, vd)  << "\n";
 
   return EXIT_SUCCESS;
 }
