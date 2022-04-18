@@ -23,6 +23,7 @@ if ( CGAL_FOUND )
     create_single_source_cgal_program( "MCF_Skeleton_sm_example.cpp" )
     create_single_source_cgal_program( "MCF_Skeleton_LCC_example.cpp" )
     create_single_source_cgal_program( "segmentation_example.cpp" )
+    file(COPY data DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
   else()
     message(STATUS "These programs require the Eigen library (3.2 or greater), and will not be compiled.")
   endif()
@@ -30,6 +31,7 @@ if ( CGAL_FOUND )
 else()
 
   message(STATUS "This program requires the CGAL library, and will not be compiled.")
+
 
 endif()
 

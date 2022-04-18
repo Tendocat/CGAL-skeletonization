@@ -4,3 +4,4 @@ externals/**
 .idea
 out/*
 CMakeSettings.json
+CGAL-5.0
