@@ -7,6 +7,7 @@ MeshViewer::MeshViewer(const std::string& title, int width, int height, bool sho
                     showgui)
 
 {
+
     // Update scene center and bounds
     pmp::BoundingBox bb = mesh_.bounds();
     set_scene((pmp::vec3)bb.center(), 0.5 * bb.size());
@@ -24,6 +25,7 @@ MeshViewer::MeshViewer(const std::string& title, int width, int height, bool sho
     }
 
     update_mesh();
+    set_draw_mode("Hidden Line");
 
     mesh_.set_crease_angle(crease_angle_);
     _skeleton.set_crease_angle(crease_angle_);
