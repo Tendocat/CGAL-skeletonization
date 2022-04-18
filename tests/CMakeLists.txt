@@ -1,1 +1,1 @@
-# TODO : Write some tests and run them
+add_subdirectory()

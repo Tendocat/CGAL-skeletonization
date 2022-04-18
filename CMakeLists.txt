@@ -6,6 +6,10 @@ project(SKGen)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME AND BUILD_TESTING)
+    add_subdirectory(tests)
+endif()
+
 # Check compiler and add corresponding flags
 if(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D_USE_MATH_DEFINES -DNOMINMAX -D_CRT_SECURE_NO_WARNINGS")
@@ -101,6 +105,6 @@ include_directories("externals/pmp-library/external/imgui/")
 
 add_subdirectory(skgen)
 
-if(BUILD_TESTS)
+if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME AND BUILD_TESTING)
     add_subdirectory(tests)
 endif()

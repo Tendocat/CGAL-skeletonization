@@ -16,7 +16,17 @@ public:
 
 	void process_imgui();
 
+	void load_skeleton(const char* path);
+	void update_mesh() override;
+	void draw(const std::string& draw_mode) override;
+
 private:
-    ImGui::FileBrowser fb;
+    ImGui::FileBrowser _fbMesh;
+	ImGui::FileBrowser _fbSkel;
+
+
+	pmp::SurfaceMeshGL _skeleton;
+
+	bool _isDrawingSkeleton;
 
 };
