@@ -1,13 +1,32 @@
-# squelettisation
+# Squelettisation
 
-langage utilisé : PMP C++
+Technologies utilisées : PMP, C++
 
-`git submodule update --init --recursive`
+## Compilation
 
+Télécharger les dépendances : `git submodule update --init --recursive`
 
-## Usage 
+Compiler PMP :
+```
+cd externals/pmp-library/
+mkdir build
+cd build
+cmake -S ../ -B ./
+cmake --build ./
+```
 
-To use the program : `SKGen [-h] [-p <path_to_mesh>] [-x <width>] [-y <height>]`
+Compiler le projet :
+```
+cd ../
+mkdir build/
+cd build/
+cmake ../squelettisation
+cmake --build ./
+```
+
+## Exécution
+
+Pour lancer le programme : `SKGen [-h] [-p <path_to_mesh>] [-x <width>] [-y <height>]`
 
 ```
 Available parameters:

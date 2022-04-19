@@ -12,8 +12,7 @@ int main(int argc, char** argv)
     parser.set_optional<std::string>("s", "skeleton", std::string(), "Path to mesh's skeleton");
     parser.set_optional<cli::NumericalBase<int,10>>("y", "height", 800, "Height of the window");
     parser.set_optional<cli::NumericalBase<int, 10>>("x", "width", 800, "Width of the window");
-    parser.run_and_exit_if_error(); // Exit and print on std::cerr
-
+    parser.run_and_exit_if_error(); // exit and print on std::cerr
 
     std::string mesh = parser.get<std::string>("p");
     std::string skel = parser.get<std::string>("s");
@@ -22,10 +21,13 @@ int main(int argc, char** argv)
     auto h = parser.get<cli::NumericalBase<int, 10>>("y");
 
     MeshViewer viewer("SKgen", w.value, h.value);
+
     if (!mesh.empty())
         viewer.load_mesh(mesh.c_str());
+
     if (!skel.empty())
         viewer.load_skeleton(skel.c_str());
+
     viewer.run();
 
     return 0;

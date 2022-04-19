@@ -8,25 +8,29 @@
 #include <imgui.h>
 #include <imfilebrowser.h>
 
+#include "Skeleton.hpp"
+
 class MeshViewer : public pmp::MeshViewer
 {
-public:
-	MeshViewer() = delete;
-	MeshViewer(const std::string& title, int width, int height, bool showgui = true);
+    public:
+        MeshViewer() = delete;
+        MeshViewer(const std::string& title, int width, int height, bool showgui = true);
 
-	void process_imgui();
+        void process_imgui();
 
-	void load_skeleton(const char* path);
-	void update_mesh() override;
-	void draw(const std::string& draw_mode) override;
+        void load_skeleton(const char* path);
+        void update_mesh() override;
+        void draw(const std::string& draw_mode) override;
+        
+        float dist(const pmp::Point &p1, const pmp::Point &p2);
+        float dist_to_skeleton(const pmp::Point &p1);
+        void evaluate_skeleton();
 
-private:
-    ImGui::FileBrowser _fbMesh;
-	ImGui::FileBrowser _fbSkel;
+    private:
+        ImGui::FileBrowser _fbMesh;
+        ImGui::FileBrowser _fbSkel;
 
+        pmp::SurfaceMeshGL _skeleton;
 
-	pmp::SurfaceMeshGL _skeleton;
-
-	bool _isDrawingSkeleton;
-
+        bool _isDrawingSkeleton;
 };
