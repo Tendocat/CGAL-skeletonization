@@ -1,4 +1,4 @@
-# Squelettisation
+# Géométrie Numérique - Projet 'Squelettisation'
 
 Technologies utilisées : PMP, C++
 
@@ -6,7 +6,7 @@ Technologies utilisées : PMP, C++
 
 Télécharger les dépendances : `git submodule update --init --recursive`
 
-Compiler PMP :
+Compiler PMP depuis la racine du projet :
 ```
 cd externals/pmp-library/
 mkdir build
@@ -15,7 +15,7 @@ cmake -S ../ -B ./
 cmake --build ./
 ```
 
-Compiler le projet :
+Compiler le projet depuis la racine du projet :
 ```
 cd ../
 mkdir build/

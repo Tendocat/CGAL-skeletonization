@@ -1,8 +1,8 @@
 #include <iostream>
-
-#include <MeshViewer.hpp>
-#include <SimpleCommandLine.h>
 #include <string>
+
+#include <SimpleCommandLine.h>
+#include "MeshViewer.hpp"
 
 int main(int argc, char** argv)
 {
@@ -27,6 +27,8 @@ int main(int argc, char** argv)
 
     if (!skel.empty())
         viewer.load_skeleton(skel.c_str());
+
+    freopen("/dev/null", "w", stderr); // disable stderr
 
     viewer.run();
 
