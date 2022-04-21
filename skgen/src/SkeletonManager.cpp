@@ -1,3 +1,0 @@
-#include "SkeletonManager.hpp"
-
-// TODO ...
