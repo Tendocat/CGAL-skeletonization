@@ -92,3 +92,8 @@ void MeshViewer::update_mesh()
         pmp::MeshViewer::update_mesh();
     }
 }
+
+void MeshViewer::load_skeleton(const char* path)
+{
+    _skeleton.read(path);
+}

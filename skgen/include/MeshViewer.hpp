@@ -18,6 +18,7 @@ class MeshViewer : public pmp::MeshViewer
 
         void process_imgui();
 
+        void load_skeleton(const char* path);
         void update_mesh() override;
         void draw(const std::string& draw_mode) override;
         
