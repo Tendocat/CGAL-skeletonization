@@ -1,10 +1,16 @@
 # Géométrie Numérique - Projet 'Squelettisation'
 
-Technologies utilisées : PMP, C++
+Technologies utilisées : PMP, C++, CGAL
 
 ## Compilation
 
-Télécharger les dépendances : `git submodule update --init --recursive`
+### Installation des dépendances externes au projet 
+Dépendances : Eigen3, CGAL
+
+* Sous Ubuntu : `sudo apt-get install libcgal-dev libeigen3-dev`
+* Sous Windows : Utiliser vcpkg `vcpkg.exe install cgal:x64-windows eigen3:x64-windows`
+
+### Télécharger et compiler les dépendances internes : `git submodule update --init --recursive`
 
 Compiler PMP depuis la racine du projet :
 ```
