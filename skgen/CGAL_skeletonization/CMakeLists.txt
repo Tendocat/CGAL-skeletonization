@@ -3,7 +3,7 @@
 
 
 cmake_minimum_required(VERSION 3.1...3.15)
-project( Surface_mesh_skeletonization_Examples )
+project( CGAL_skeletonization )
 
 find_package(CGAL)
 
@@ -16,7 +16,6 @@ if ( CGAL_FOUND )
 
 		add_subdirectory(detail_MCF_Skeleton)
 		add_subdirectory(direct_MCF_Skeleton)
-		file(COPY data DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 	else()
 		message(STATUS "These programs require the Eigen library (3.2 or greater), and will not be compiled.")
 	endif()
