@@ -1,5 +1,6 @@
 #include "SkeletonManager.hpp"
 #include "util.hpp"
+#include <filesystem>
 
 #include <numeric>
 
@@ -15,10 +16,31 @@ float SkeletonManager::dist_point_skeleton(const pmp::Point &p1, const pmp::Surf
     return min_dist;
 }
 
+std::string SkeletonManager::programPath = "";
+
 pmp::SurfaceMeshGL SkeletonManager::compute_skeleton(const std::string &path)
 {
-    // TODO : compute skeleton using CGAL ...
-    return pmp::SurfaceMeshGL();
+    // path to call CGAL main program
+    std::string cgalCall(SkeletonManager::programPath);
+    cgalCall.append("CGAL_skeletonization/direct_MCF_Skeleton/direct_skeletonizer ");
+
+    std::error_code ec;
+    std::filesystem::path p(path);
+    cgalCall.append(std::filesystem::absolute(p,ec));
+
+    // call CGAL program to compute the skeleton
+    if(system(cgalCall.c_str()) == EXIT_FAILURE)
+    {
+        std::cout << "Skeleton computing failure." << std::endl;
+        return pmp::SurfaceMeshGL();
+    }
+    
+    pmp::SurfaceMeshGL ret;
+    ret.read("skel.obj");  // read the computed skeleton
+
+    system("rm skel.obj"); // clean the file
+
+    return ret;
 }
 
 void SkeletonManager::dist_mesh_skeleton(pmp::SurfaceMesh &mesh, const pmp::SurfaceMesh &skeleton)

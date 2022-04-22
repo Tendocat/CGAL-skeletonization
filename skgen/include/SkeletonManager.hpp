@@ -9,7 +9,7 @@
 enum class Metrics { MEAN, MEDIAN };
 
 /**
- * @brief ...
+ * @brief Static class  skeletwith functions for skeleton computing and analysis
  */
 class SkeletonManager
 {
@@ -20,8 +20,11 @@ class SkeletonManager
         static float dist_point_skeleton(const pmp::Point &p1, const pmp::SurfaceMesh &skeleton);
 
     public:
+        // program path
+        static std::string programPath;
+
         /**
-         * @brief ...
+         * @brief call CGAL program which uses Mean Curvature Flow algorithm
          */
         static pmp::SurfaceMeshGL compute_skeleton(const std::string &path);
 

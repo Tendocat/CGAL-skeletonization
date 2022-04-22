@@ -14,13 +14,32 @@ typedef boost::graph_traits<Triangle_mesh>::vertex_descriptor    vertex_descript
 typedef CGAL::Mean_curvature_flow_skeletonization<Triangle_mesh> Skeletonization;
 typedef Skeletonization::Skeleton                             Skeleton;
 
+typedef Skeleton::vertex_descriptor                           Skeleton_vertex;
 
 // This example extracts a medially centered skeleton from a given mesh.
 int main(int argc, char* argv[])
 {
-  std::ifstream input((argc>1)?argv[1]:"data/elephant.off");
+  if (argc <= 1)
+  {
+    std::cout << "Arg missing" << std::endl;
+    return EXIT_FAILURE;
+  }
+
+  std::ifstream input(argv[1]);
   Triangle_mesh tmesh;
-  input >> tmesh;
+  
+  if(!CGAL::read_off(input, tmesh))
+  {
+    std::cout << "Input error." << std::endl;
+    return EXIT_FAILURE;
+  }
+
+  if (tmesh.number_of_vertices() == 0)
+  {
+    std::cout << "No Input geometry." << std::endl;
+    return EXIT_FAILURE;
+  }
+  
   if (!CGAL::is_triangle_mesh(tmesh))
   {
     std::cout << "Input geometry is not triangulated." << std::endl;
@@ -33,13 +52,12 @@ int main(int argc, char* argv[])
 
   // Output all the vertices of the skeleton.
   std::ofstream output("skel.obj");
-  for(auto v : skeleton.m_vertices)
+  for(Skeleton_vertex v : CGAL::make_range(vertices(skeleton)))
   {
-    const Point& s = v.m_property.point;
-    output << "v " << s << "\n";
+    output << "v " << skeleton[v].point << "\n";
   }
   output.close();
-
+  
   return EXIT_SUCCESS;
 }
 

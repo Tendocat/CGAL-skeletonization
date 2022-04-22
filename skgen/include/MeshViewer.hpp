@@ -16,7 +16,6 @@ class MeshViewer : public pmp::MeshViewer
         inline static const float BREAK_THRESHOLD_MAX = 1.4f;
 
         ImGui::FileBrowser _fbMesh;
-        ImGui::FileBrowser _fbSkel;
 
         pmp::SurfaceMeshGL _skeleton;
 
@@ -29,12 +28,12 @@ class MeshViewer : public pmp::MeshViewer
         MeshViewer(const std::string& title, int width, int height, bool showgui = true);
 
         /**
-         * @brief ...
+         * @brief MeshViewer overided loop
          */
         void process_imgui();
 
         /**
-         * @brief ...
+         * @brief load the skeleton of a mesh at a given path
          */
         void load_skeleton(const char* path);
 

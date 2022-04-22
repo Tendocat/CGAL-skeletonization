@@ -16,10 +16,7 @@ MeshViewer::MeshViewer(const std::string& title, int width, int height, bool sho
     _skeleton.set_crease_angle(crease_angle_);
 
     _fbMesh.SetTitle("Choose mesh file");
-    _fbMesh.SetTypeFilters({ ".obj", ".stl", ".ply", ".off" });
-
-    _fbSkel.SetTitle("Choose mesh file");
-    _fbSkel.SetTypeFilters({ ".obj", ".stl", ".ply", ".off" });
+    _fbMesh.SetTypeFilters({ ".off" });
 }
 
 void MeshViewer::process_imgui()
@@ -29,32 +26,18 @@ void MeshViewer::process_imgui()
     if(ImGui::Button("Load mesh"))
         _fbMesh.Open();
 
-    if (ImGui::Button("Load skeleton"))
-        _fbSkel.Open();
-
     _fbMesh.Display();
-    _fbSkel.Display();
 
     if(_fbMesh.HasSelected())
     {
         mesh_.read(_fbMesh.GetSelected().string());
 
-        //_skeleton = Skeleton::compute_skeleton(_fbMesh.GetSelected().string());
+        _skeleton = SkeletonManager::compute_skeleton(_fbMesh.GetSelected().string());
 
         pmp::BoundingBox bb = mesh_.bounds();
         set_scene((pmp::vec3)bb.center(), 0.5f * bb.size());
 
         _fbMesh.ClearSelected();
-    }
-
-    if (_fbSkel.HasSelected()) // MOCK : until 'Skeleton::compute_skeleton()' is completed ...
-    {
-        _skeleton.read(_fbSkel.GetSelected().string());
-
-        pmp::BoundingBox bb = _skeleton.bounds();
-        set_scene((pmp::vec3)bb.center(), 0.5f * bb.size());
-
-        _fbSkel.ClearSelected();
     }
 
     ImGui::Checkbox("Draw skeleton", &_drawSkeleton);
@@ -100,5 +83,5 @@ void MeshViewer::update_mesh()
 
 void MeshViewer::load_skeleton(const char* path)
 {
-    _skeleton.read(path);
+    _skeleton = SkeletonManager::compute_skeleton(path);
 }

@@ -11,10 +11,15 @@ typedef CGAL::Surface_mesh<Point>                             Triangle_mesh;
 typedef CGAL::Mean_curvature_flow_skeletonization<Triangle_mesh> Skeletonization;
 typedef Skeletonization::Skeleton                             Skeleton;
 
+typedef Skeleton::vertex_descriptor                           Skeleton_vertex;
+
 // more detailed version of the skeleton extraction
 int main(int argc, char* argv[])
 {
-  std::ifstream input((argc>1)?argv[1]:"data/elephant.off");
+  if (argc <= 1)
+    return EXIT_FAILURE;
+    
+  std::ifstream input(argv[1]);
   Triangle_mesh tmesh;
   input >> tmesh;
   if (!CGAL::is_triangle_mesh(tmesh))
@@ -48,10 +53,9 @@ int main(int argc, char* argv[])
 
   // Output all the vertices of the skeleton.
   std::ofstream output("skel.obj");
-  for(auto v : skeleton.m_vertices)
+  for(Skeleton_vertex v : CGAL::make_range(vertices(skeleton)))
   {
-    const Point& s = v.m_property.point;
-    output << "v " << s << "\n";
+    output << "v " << skeleton[v].point << "\n";
   }
   output.close();
 
