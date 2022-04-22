@@ -1,0 +1,2 @@
+add_executable(detailed_skeletonizer main.cpp)
+target_link_libraries(detailed_skeletonizer CGAL::CGAL)

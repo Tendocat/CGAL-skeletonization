@@ -104,6 +104,10 @@ include_directories("externals/pmp-library/external/glfw/include/")
 include_directories("externals/pmp-library/external/imgui/")
 
 add_subdirectory(skgen)
+add_subdirectory(skgen/Surface_mesh_skeletonization)
+
+add_custom_target(BuildAll)
+add_dependencies(BuildAll SKGen direct_skeletonizer detailed_skeletonizer)
 
 if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME AND BUILD_TESTING)
     add_subdirectory(tests)
