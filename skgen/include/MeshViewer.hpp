@@ -12,12 +12,16 @@
 class MeshViewer : public pmp::MeshViewer
 {
     private:
+        inline static const float BREAK_THRESHOLD_MIN = 0.6f;
+        inline static const float BREAK_THRESHOLD_MAX = 1.4f;
+
         ImGui::FileBrowser _fbMesh;
         ImGui::FileBrowser _fbSkel;
 
         pmp::SurfaceMeshGL _skeleton;
 
         bool _drawSkeleton;
+
         float _breakThreshold;
 
     public:

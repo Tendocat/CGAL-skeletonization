@@ -7,7 +7,7 @@ MeshViewer::MeshViewer(const std::string& title, int width, int height, bool sho
     set_scene((pmp::vec3)bb.center(), 0.5f * bb.size());
 
     _drawSkeleton = false;
-    _breakThreshold = 1.0f;
+    _breakThreshold = (BREAK_THRESHOLD_MIN + BREAK_THRESHOLD_MAX) / 2;
 
     set_draw_mode("Hidden Line");
     update_mesh();
@@ -47,7 +47,7 @@ void MeshViewer::process_imgui()
         _fbMesh.ClearSelected();
     }
 
-    if (_fbSkel.HasSelected())  // MOCK : until 'Skeleton::compute_skeleton()' is completed ...
+    if (_fbSkel.HasSelected()) // MOCK : until 'Skeleton::compute_skeleton()' is completed ...
     {
         _skeleton.read(_fbSkel.GetSelected().string());
 
@@ -62,12 +62,12 @@ void MeshViewer::process_imgui()
     if (ImGui::Button("Evaluate skeleton"))
     {
         SkeletonManager::dist_mesh_skeleton(mesh_, _skeleton);
-        SkeletonManager::evaluate_skeleton(mesh_, Metrics::MEAN, _breakThreshold);
+        SkeletonManager::evaluate_skeleton(mesh_, Metrics::MEAN, (BREAK_THRESHOLD_MAX - _breakThreshold) + BREAK_THRESHOLD_MIN);
     }
 
-    if (ImGui::SliderFloat("Break ratio", &_breakThreshold, 0.6f, 1.4f))
+    if (ImGui::SliderFloat("Break threshold", &_breakThreshold, BREAK_THRESHOLD_MIN, BREAK_THRESHOLD_MAX))
     {
-        SkeletonManager::evaluate_skeleton(mesh_, Metrics::MEAN, _breakThreshold);
+        SkeletonManager::evaluate_skeleton(mesh_, Metrics::MEAN, (BREAK_THRESHOLD_MAX - _breakThreshold) + BREAK_THRESHOLD_MIN);
     }
 
     update_mesh();
