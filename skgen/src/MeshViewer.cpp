@@ -13,8 +13,11 @@ MeshViewer::MeshViewer(const std::string& title, int width, int height, bool sho
     set_draw_mode("Hidden Line");
     update_mesh();
 
-    mesh_.set_crease_angle(crease_angle_);
-    _skeleton.set_crease_angle(crease_angle_);
+    mesh_.set_crease_angle(0);
+    mesh_.set_specular(0);
+    mesh_.set_ambient(0);
+    mesh_.set_shininess(0);
+    _skeleton.set_crease_angle(0);
 
     _fbMesh.SetTitle("Choose mesh file");
     _fbMesh.SetTypeFilters({ ".off" });
