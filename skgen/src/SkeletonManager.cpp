@@ -74,8 +74,13 @@ void SkeletonManager::evaluate_skeleton(pmp::SurfaceMesh &mesh, Metrics metric, 
         threshold = (threshold / size) * break_threshold;
     }
     else if (metric == Metrics::MEDIAN)
-    {    
-        // TODO : compute median according to 'break_threshold' ...
+    {
+        auto vList = std::vector<float>{};
+        for (auto const &v : mesh.vertices())
+            vList.push_back(vdist[v]);
+
+        nth_element(vList.begin(), vList.begin()+vList.size()/2, vList.end());
+        threshold = vList[vList.size()/2] * break_threshold;
     }
 
     float ratio = 0;

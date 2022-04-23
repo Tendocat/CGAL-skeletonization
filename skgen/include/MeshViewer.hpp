@@ -27,6 +27,9 @@ class MeshViewer : public pmp::MeshViewer
         // break threshold
         float _breakThreshold;
 
+        // the metric used to compute distance
+        Metrics _metricMode;
+
     public:
         MeshViewer() = delete;
         MeshViewer(const std::string& title, int width, int height, bool showgui = true);

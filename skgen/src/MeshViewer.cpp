@@ -8,6 +8,7 @@ MeshViewer::MeshViewer(const std::string& title, int width, int height, bool sho
 
     _drawSkeleton = false;
     _breakThreshold = (BREAK_THRESHOLD_MIN + BREAK_THRESHOLD_MAX) / 2;
+    _metricMode = Metrics::MEAN;
 
     set_draw_mode("Hidden Line");
     update_mesh();
@@ -31,8 +32,7 @@ void MeshViewer::process_imgui()
     if(_fbMesh.HasSelected())
     {
         mesh_.read(_fbMesh.GetSelected().string());
-
-        _skeleton = SkeletonManager::compute_skeleton(_fbMesh.GetSelected().string());
+        load_skeleton(_fbMesh.GetSelected().string());
 
         pmp::BoundingBox bb = mesh_.bounds();
         set_scene((pmp::vec3)bb.center(), 0.5f * bb.size());
@@ -42,15 +42,21 @@ void MeshViewer::process_imgui()
 
     ImGui::Checkbox("Draw skeleton", &_drawSkeleton);
 
-    if (ImGui::Button("Evaluate skeleton"))
+    if (ImGui::Button("Use median distance"))
     {
-        SkeletonManager::dist_mesh_skeleton(mesh_, _skeleton);
-        SkeletonManager::evaluate_skeleton(mesh_, Metrics::MEAN, (BREAK_THRESHOLD_MAX - _breakThreshold) + BREAK_THRESHOLD_MIN);
+        _metricMode = Metrics::MEDIAN;
+        SkeletonManager::evaluate_skeleton(mesh_, _metricMode, (BREAK_THRESHOLD_MAX - _breakThreshold) + BREAK_THRESHOLD_MIN);
+    }
+
+    if (ImGui::Button("Use mean distance"))
+    {
+        _metricMode = Metrics::MEAN;
+        SkeletonManager::evaluate_skeleton(mesh_, _metricMode, (BREAK_THRESHOLD_MAX - _breakThreshold) + BREAK_THRESHOLD_MIN);
     }
 
     if (ImGui::SliderFloat("Break threshold", &_breakThreshold, BREAK_THRESHOLD_MIN, BREAK_THRESHOLD_MAX))
     {
-        SkeletonManager::evaluate_skeleton(mesh_, Metrics::MEAN, (BREAK_THRESHOLD_MAX - _breakThreshold) + BREAK_THRESHOLD_MIN);
+        SkeletonManager::evaluate_skeleton(mesh_, _metricMode, (BREAK_THRESHOLD_MAX - _breakThreshold) + BREAK_THRESHOLD_MIN);
     }
 
     update_mesh();
@@ -59,6 +65,8 @@ void MeshViewer::process_imgui()
 void MeshViewer::load_skeleton(const std::string &path)
 {
     _skeleton = SkeletonManager::compute_skeleton(path.c_str());
+    SkeletonManager::dist_mesh_skeleton(mesh_, _skeleton);
+    SkeletonManager::evaluate_skeleton(mesh_, _metricMode, (BREAK_THRESHOLD_MAX - _breakThreshold) + BREAK_THRESHOLD_MIN);
 }
 
 void MeshViewer::update_mesh()
