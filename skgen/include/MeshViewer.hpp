@@ -7,7 +7,7 @@
 #include "SkeletonManager.hpp"
 
 /**
- * @brief ...
+ * @brief This class overrides 'pmp::MeshViever'
  */
 class MeshViewer : public pmp::MeshViewer
 {
@@ -15,12 +15,16 @@ class MeshViewer : public pmp::MeshViewer
         inline static const float BREAK_THRESHOLD_MIN = 0.6f;
         inline static const float BREAK_THRESHOLD_MAX = 1.4f;
 
+        // file browser linked to the mesh
         ImGui::FileBrowser _fbMesh;
 
+        // skeleton mesh
         pmp::SurfaceMeshGL _skeleton;
 
+        // whether the skeleton is drawn
         bool _drawSkeleton;
 
+        // break threshold
         float _breakThreshold;
 
     public:
@@ -28,22 +32,23 @@ class MeshViewer : public pmp::MeshViewer
         MeshViewer(const std::string& title, int width, int height, bool showgui = true);
 
         /**
-         * @brief MeshViewer overided loop
+         * @brief MeshViewer overrided loop.
          */
         void process_imgui();
 
         /**
-         * @brief load the skeleton of a mesh at a given path
+         * @brief Loads a skeleton mesh.
+         * @deprecated No longer used.
          */
-        void load_skeleton(const char* path);
+        void load_skeleton(const std::string &path);
 
         /**
-         * @brief ...
+         * @brief Updates the mesh according to the user inputs.
          */
         void update_mesh() override;
 
         /**
-         * @brief ...
+         * @brief Draws the mesh according to the current drawing method.
          */
-        void draw(const std::string& draw_mode) override;
+        void draw(const std::string &draw_mode) override;
 };

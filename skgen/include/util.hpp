@@ -1,7 +1,7 @@
 #include "pmp/Types.h"
 
 /**
- * @brief ...
+ * @brief Computes the distance between two vertices.
  */
 inline float dist(const pmp::Point &p1, const pmp::Point &p2)
 {

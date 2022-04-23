@@ -56,16 +56,9 @@ void MeshViewer::process_imgui()
     update_mesh();
 }
 
-void MeshViewer::draw(const std::string &draw_mode)
+void MeshViewer::load_skeleton(const std::string &path)
 {
-    if (_drawSkeleton)
-    {
-        _skeleton.draw(projection_matrix_, modelview_matrix_, draw_mode);
-    }
-    else
-    {
-        pmp::MeshViewer::draw(draw_mode);
-    }
+    _skeleton = SkeletonManager::compute_skeleton(path.c_str());
 }
 
 void MeshViewer::update_mesh()
@@ -81,7 +74,14 @@ void MeshViewer::update_mesh()
     }
 }
 
-void MeshViewer::load_skeleton(const char* path)
+void MeshViewer::draw(const std::string &draw_mode)
 {
-    _skeleton = SkeletonManager::compute_skeleton(path);
+    if (_drawSkeleton)
+    {
+        _skeleton.draw(projection_matrix_, modelview_matrix_, draw_mode);
+    }
+    else
+    {
+        pmp::MeshViewer::draw(draw_mode);
+    }
 }
