@@ -35,7 +35,7 @@ pmp::SurfaceMeshGL SkeletonManager::compute_skeleton(const std::string &path)
     }
     
     pmp::SurfaceMeshGL ret;
-    ret.read("skel.obj");  // read the computed skeleton
+    ret.read("skel.obj"); // read the computed skeleton
 
     std::filesystem::remove("skel.obj"); // clean the file
 
