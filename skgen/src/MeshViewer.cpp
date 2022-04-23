@@ -15,8 +15,9 @@ MeshViewer::MeshViewer(const std::string& title, int width, int height, bool sho
 
     mesh_.set_crease_angle(0);
     mesh_.set_specular(0);
-    mesh_.set_ambient(0);
     mesh_.set_shininess(0);
+    mesh_.set_ambient(4);
+    mesh_.set_diffuse(0);
     _skeleton.set_crease_angle(0);
 
     _fbMesh.SetTitle("Choose mesh file");

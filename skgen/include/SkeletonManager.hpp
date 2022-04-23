@@ -2,6 +2,7 @@
 
 #include <pmp/visualization/MeshViewer.h>
 #include <pmp/SurfaceMesh.h>
+#include <pmp/algorithms/SurfaceCurvature.h>
 #include <filesystem>
 
 /**

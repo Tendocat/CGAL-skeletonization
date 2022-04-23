@@ -21,15 +21,12 @@ pmp::SurfaceMeshGL SkeletonManager::compute_skeleton(const std::string &path)
 {
     // path to call CGAL main program
     std::filesystem::path cgalCall = 
-        SkeletonManager::programPath / "CGAL_skeletonization" / "direct_MCF_Skeleton" / "direct_skeletonizer ";
+        SkeletonManager::programPath / "CGAL_skeletonization" / "detail_MCF_Skeleton" / "detailed_skeletonizer ";
 
     std::error_code ec;
     std::filesystem::path p(path);
     cgalCall.concat(std::filesystem::absolute(p,ec).string());
     
-    auto ext = p.extension();
-    std::cout << ext << std::endl;
-    std::cout << cgalCall << std::endl;
     // call CGAL program to compute the skeleton
     if(std::system(cgalCall.string().c_str()) == EXIT_FAILURE)
     {
@@ -57,6 +54,23 @@ void SkeletonManager::dist_mesh_skeleton(pmp::SurfaceMesh &mesh, const pmp::Surf
 
     for (auto const &v : mesh.vertices())
         vdist[v] = dist_point_skeleton(mesh.position(v), skeleton);
+    
+
+    // high curvature are troublesome in any case
+
+    auto curvature = pmp::SurfaceCurvature{mesh};
+    curvature.analyze();
+    auto vcurv = mesh.vertex_property<float>("curv:min");
+
+    for (auto const &v : mesh.vertices())
+    {
+        if (vcurv[v] > 100)
+        {
+            vdist[v] = 0;
+            for(auto const &around: mesh.vertices(v))
+                vdist[around] = 0;
+        }
+    }
 }
 
 void SkeletonManager::evaluate_skeleton(pmp::SurfaceMesh &mesh, Metrics metric, float break_threshold)
@@ -89,6 +103,6 @@ void SkeletonManager::evaluate_skeleton(pmp::SurfaceMesh &mesh, Metrics metric, 
     for (auto const &v : mesh.vertices())
     {
         ratio = std::min(vdist[v] / threshold, 1.0f);
-        vcolor[v] = (1 - ratio) * pmp::Color(1, 0, 0) + ratio * pmp::Color(1, 1, 1);
+        vcolor[v] = (1 - ratio) * pmp::Color(2, 0, 0) + ratio * pmp::Color(1, 1, 1);
     }
 }
