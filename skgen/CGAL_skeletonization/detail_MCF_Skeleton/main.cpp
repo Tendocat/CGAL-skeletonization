@@ -3,6 +3,7 @@
 #include <CGAL/Mean_curvature_flow_skeletonization.h>
 
 #include <fstream>
+#include <filesystem>
 
 typedef CGAL::Simple_cartesian<double>                        Kernel;
 typedef Kernel::Point_3                                       Point;
@@ -13,51 +14,97 @@ typedef Skeletonization::Skeleton                             Skeleton;
 
 typedef Skeleton::vertex_descriptor                           Skeleton_vertex;
 
+namespace fs = std::filesystem;
+
 // more detailed version of the skeleton extraction
 int main(int argc, char* argv[])
 {
-  if (argc <= 1)
-    return EXIT_FAILURE;
-    
-  std::ifstream input(argv[1]);
-  Triangle_mesh tmesh;
-  input >> tmesh;
-  if (!CGAL::is_triangle_mesh(tmesh))
-  {
-    std::cout << "Input geometry is not triangulated." << std::endl;
-    return EXIT_FAILURE;
-  }
+	Triangle_mesh tmesh;
 
-  Skeleton skeleton;
-  Skeletonization mcs(tmesh);
+	if (argc <= 1)
+	{
+		std::cerr << "Arg missing" << std::endl;
+		return EXIT_FAILURE;
+	}
 
-  // 1. Contract the mesh by mean curvature flow.
-  mcs.contract_geometry();
+	fs::path p = fs::path(argv[1]);
 
-  // 2. Collapse short edges and split bad triangles.
-  mcs.collapse_edges();
-  mcs.split_faces();
+	if (not fs::exists(p))
+	{
+		std::cerr << "Input error." << std::endl;
+		return EXIT_FAILURE;
+	}
 
-  // 3. Fix degenerate vertices.
-  mcs.detect_degeneracies();
+	std::string ext = p.extension().string();
 
-  // Perform the above three steps in one iteration.
-  mcs.contract();
+	std::ifstream input(argv[1]);
 
-  // Iteratively apply step 1 to 3 until convergence.
-  mcs.contract_until_convergence();
+	if (ext == std::string("off"))
+	{
+		if (!CGAL::IO::read_OFF(input, tmesh))
+		{
+			std::cerr << "Input error." << std::endl;
+			return EXIT_FAILURE;
+		}
+	}
+	else if (ext == std::string("obj"))
+	{
+		if (!CGAL::IO::read_OBJ(input, tmesh))
+		{
+			std::cerr << "Input error." << std::endl;
+			return EXIT_FAILURE;
+		}
+	}
+	else if (ext == std::string("stl"))
+	{
+		if (!CGAL::IO::read_STL(input, tmesh))
+		{
+			std::cerr << "Input error." << std::endl;
+			return EXIT_FAILURE;
+		}
+	}
+	else
+	{
+		std::cerr << "Unsupported file format." << std::endl;
+		return EXIT_FAILURE;
+	}
 
-  // Convert the contracted mesh into a curve skeleton and
-  // get the correspondent surface points
-  mcs.convert_to_skeleton(skeleton);
+	if (!CGAL::is_triangle_mesh(tmesh))
+	{
+		std::cout << "Input geometry is not triangulated." << std::endl;
+		return EXIT_FAILURE;
+	}
 
-  // Output all the vertices of the skeleton.
-  std::ofstream output("skel.obj");
-  for(Skeleton_vertex v : CGAL::make_range(vertices(skeleton)))
-  {
-    output << "v " << skeleton[v].point << "\n";
-  }
-  output.close();
+	Skeleton skeleton;
+	Skeletonization mcs(tmesh);
 
-  return EXIT_SUCCESS;
+	// 1. Contract the mesh by mean curvature flow.
+	mcs.contract_geometry();
+
+	// 2. Collapse short edges and split bad triangles.
+	mcs.collapse_edges();
+	mcs.split_faces();
+
+	// 3. Fix degenerate vertices.
+	mcs.detect_degeneracies();
+
+	// Perform the above three steps in one iteration.
+	mcs.contract();
+
+	// Iteratively apply step 1 to 3 until convergence.
+	mcs.contract_until_convergence();
+
+	// Convert the contracted mesh into a curve skeleton and
+	// get the correspondent surface points
+	mcs.convert_to_skeleton(skeleton);
+
+	// Output all the vertices of the skeleton.
+	std::ofstream output("skel.obj");
+	for (Skeleton_vertex v : CGAL::make_range(vertices(skeleton)))
+	{
+		output << "v " << skeleton[v].point << "\n";
+	}
+	output.close();
+
+	return EXIT_SUCCESS;
 }

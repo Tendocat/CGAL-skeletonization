@@ -2,7 +2,7 @@
 
 #include <pmp/visualization/MeshViewer.h>
 #include <pmp/SurfaceMesh.h>
-
+#include <filesystem>
 /**
  * @brief ...
  */
@@ -21,7 +21,7 @@ class SkeletonManager
 
     public:
         // program path
-        static std::string programPath;
+        static std::filesystem::path programPath;
 
         /**
          * @brief call CGAL program which uses Mean Curvature Flow algorithm

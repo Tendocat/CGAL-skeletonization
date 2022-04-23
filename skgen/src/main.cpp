@@ -18,7 +18,6 @@ int main(int argc, char** argv)
     std::error_code ec;
     std::filesystem::path p("/proc/self/exe");
     SkeletonManager::programPath = std::filesystem::read_symlink(p,ec).parent_path();
-    SkeletonManager::programPath.append("/");
 
     std::string mesh = parser.get<std::string>("p");
     //std::string skel = parser.get<std::string>("s");

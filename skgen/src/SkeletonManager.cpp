@@ -1,6 +1,5 @@
 #include "SkeletonManager.hpp"
 #include "util.hpp"
-#include <filesystem>
 
 #include <numeric>
 
@@ -16,20 +15,20 @@ float SkeletonManager::dist_point_skeleton(const pmp::Point &p1, const pmp::Surf
     return min_dist;
 }
 
-std::string SkeletonManager::programPath = "";
+std::filesystem::path SkeletonManager::programPath = std::filesystem::path();
 
 pmp::SurfaceMeshGL SkeletonManager::compute_skeleton(const std::string &path)
 {
     // path to call CGAL main program
-    std::string cgalCall(SkeletonManager::programPath);
-    cgalCall.append("CGAL_skeletonization/direct_MCF_Skeleton/direct_skeletonizer ");
+    std::filesystem::path cgalCall = 
+        SkeletonManager::programPath / "CGAL_skeletonization" / "direct_MCF_Skeleton" / "direct_skeletonizer";
 
     std::error_code ec;
     std::filesystem::path p(path);
-    cgalCall.append(std::filesystem::absolute(p,ec));
+    cgalCall.append(std::filesystem::absolute(p,ec).string());
 
     // call CGAL program to compute the skeleton
-    if(system(cgalCall.c_str()) == EXIT_FAILURE)
+    if(std::system(cgalCall.string().c_str()) == EXIT_FAILURE)
     {
         std::cout << "Skeleton computing failure." << std::endl;
         return pmp::SurfaceMeshGL();
@@ -38,7 +37,7 @@ pmp::SurfaceMeshGL SkeletonManager::compute_skeleton(const std::string &path)
     pmp::SurfaceMeshGL ret;
     ret.read("skel.obj");  // read the computed skeleton
 
-    system("rm skel.obj"); // clean the file
+    std::filesystem::remove("skel.obj"); // clean the file
 
     return ret;
 }
