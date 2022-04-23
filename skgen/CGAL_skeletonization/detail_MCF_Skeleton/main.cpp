@@ -41,7 +41,7 @@ int main(int argc, char* argv[])
 
 	if (ext == std::string("off"))
 	{
-		if (!CGAL::IO::read_OFF(input, tmesh))
+		if (!read_OFF(input, tmesh))
 		{
 			std::cerr << "Input error." << std::endl;
 			return EXIT_FAILURE;
@@ -49,7 +49,7 @@ int main(int argc, char* argv[])
 	}
 	else if (ext == std::string("obj"))
 	{
-		if (!CGAL::IO::read_OBJ(input, tmesh))
+		if (!read_OBJ(input, tmesh))
 		{
 			std::cerr << "Input error." << std::endl;
 			return EXIT_FAILURE;
@@ -57,7 +57,7 @@ int main(int argc, char* argv[])
 	}
 	else if (ext == std::string("stl"))
 	{
-		if (!CGAL::IO::read_STL(input, tmesh))
+		if (!read_STL(input, tmesh))
 		{
 			std::cerr << "Input error." << std::endl;
 			return EXIT_FAILURE;
