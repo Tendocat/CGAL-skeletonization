@@ -1,7 +1,6 @@
 #include <CGAL/Simple_cartesian.h>
 #include <CGAL/Surface_mesh.h>
 #include <CGAL/extract_mean_curvature_flow_skeleton.h>
-#include <CGAL/IO/io.h>
 
 #include <fstream>
 #include <filesystem>
@@ -44,23 +43,7 @@ int main(int argc, char* argv[])
 
 	if (ext == std::string("off"))
 	{
-		if (!read_OFF(input, tmesh))
-		{
-			std::cerr << "Input error." << std::endl;
-			return EXIT_FAILURE;
-		}
-	}
-	else if (ext == std::string("obj"))
-	{
-		if (!read_OBJ(input, tmesh))
-		{
-			std::cerr << "Input error." << std::endl;
-			return EXIT_FAILURE;
-		}
-	}
-	else if (ext == std::string("stl"))
-	{
-		if (!read_STL(input, tmesh))
+		if (!read_off(input, tmesh))
 		{
 			std::cerr << "Input error." << std::endl;
 			return EXIT_FAILURE;

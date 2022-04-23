@@ -41,23 +41,7 @@ int main(int argc, char* argv[])
 
 	if (ext == std::string("off"))
 	{
-		if (!read_OFF(input, tmesh))
-		{
-			std::cerr << "Input error." << std::endl;
-			return EXIT_FAILURE;
-		}
-	}
-	else if (ext == std::string("obj"))
-	{
-		if (!read_OBJ(input, tmesh))
-		{
-			std::cerr << "Input error." << std::endl;
-			return EXIT_FAILURE;
-		}
-	}
-	else if (ext == std::string("stl"))
-	{
-		if (!read_STL(input, tmesh))
+		if (!read_off(input, tmesh))
 		{
 			std::cerr << "Input error." << std::endl;
 			return EXIT_FAILURE;
