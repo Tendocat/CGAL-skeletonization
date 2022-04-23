@@ -41,7 +41,7 @@ int main(int argc, char* argv[])
 
 	std::ifstream input(argv[1]);
 
-	if (ext == std::string("off"))
+	if (ext == std::string(".off"))
 	{
 		if (!read_off(input, tmesh))
 		{

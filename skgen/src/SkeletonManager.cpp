@@ -21,12 +21,15 @@ pmp::SurfaceMeshGL SkeletonManager::compute_skeleton(const std::string &path)
 {
     // path to call CGAL main program
     std::filesystem::path cgalCall = 
-        SkeletonManager::programPath / "CGAL_skeletonization" / "direct_MCF_Skeleton" / "direct_skeletonizer";
+        SkeletonManager::programPath / "CGAL_skeletonization" / "direct_MCF_Skeleton" / "direct_skeletonizer ";
 
     std::error_code ec;
     std::filesystem::path p(path);
-    cgalCall.append(std::filesystem::absolute(p,ec).string());
-
+    cgalCall.concat(std::filesystem::absolute(p,ec).string());
+    
+    auto ext = p.extension();
+    std::cout << ext << std::endl;
+    std::cout << cgalCall << std::endl;
     // call CGAL program to compute the skeleton
     if(std::system(cgalCall.string().c_str()) == EXIT_FAILURE)
     {
