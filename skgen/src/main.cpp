@@ -30,7 +30,6 @@ int main(int argc, char** argv)
     if (!mesh.empty())
     {
         viewer.load_mesh(mesh.c_str());
-        viewer.load_skeleton(mesh.c_str());
     }
 
     freopen("/dev/null", "w", stderr); // disable stderr

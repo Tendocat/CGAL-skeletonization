@@ -40,8 +40,12 @@ class MeshViewer : public pmp::MeshViewer
         void process_imgui();
 
         /**
+         * @brief Loads a mesh and compute its skeleton.
+         */
+        void load_mesh(const std::string &path);
+
+        /**
          * @brief Loads a skeleton mesh.
-         * @deprecated No longer used.
          */
         void load_skeleton(const std::string &path);
 

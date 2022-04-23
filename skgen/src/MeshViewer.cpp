@@ -35,12 +35,7 @@ void MeshViewer::process_imgui()
 
     if(_fbMesh.HasSelected())
     {
-        mesh_.read(_fbMesh.GetSelected().string());
-        load_skeleton(_fbMesh.GetSelected().string());
-
-        pmp::BoundingBox bb = mesh_.bounds();
-        set_scene((pmp::vec3)bb.center(), 0.5f * bb.size());
-
+        load_mesh(_fbMesh.GetSelected().string());
         _fbMesh.ClearSelected();
     }
 
@@ -64,6 +59,25 @@ void MeshViewer::process_imgui()
     }
 
     update_mesh();
+}
+
+void MeshViewer::load_mesh(const std::string &path)
+{
+        mesh_.read(path);
+        if(mesh_.n_vertices() < 100)
+        {
+            for (auto const &e : mesh_.edges())
+            {
+                pmp::Point mid = mesh_.position(mesh_.vertex(e, 0));
+                mid = (mid + mesh_.position(mesh_.vertex(e, 1)))/2;
+                mesh_.split(e, mid);
+            }
+        }
+
+        load_skeleton(path);
+
+        pmp::BoundingBox bb = mesh_.bounds();
+        set_scene((pmp::vec3)bb.center(), 0.5f * bb.size());
 }
 
 void MeshViewer::load_skeleton(const std::string &path)

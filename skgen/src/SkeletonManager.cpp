@@ -56,7 +56,7 @@ void SkeletonManager::dist_mesh_skeleton(pmp::SurfaceMesh &mesh, const pmp::Surf
         vdist[v] = dist_point_skeleton(mesh.position(v), skeleton);
     
 
-    // high curvature are troublesome in any case
+    // high curvature is troublesome in many case
 
     auto curvature = pmp::SurfaceCurvature{mesh};
     curvature.analyze();
