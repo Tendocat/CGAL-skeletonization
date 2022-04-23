@@ -64,6 +64,8 @@ void MeshViewer::process_imgui()
 void MeshViewer::load_mesh(const std::string &path)
 {
         mesh_.read(path);
+
+        // subdivide edges if there is not enough vertices for color gradient
         if(mesh_.n_vertices() < 100)
         {
             for (auto const &e : mesh_.edges())
