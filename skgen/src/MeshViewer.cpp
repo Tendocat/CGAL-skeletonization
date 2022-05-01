@@ -44,9 +44,9 @@ void MeshViewer::process_imgui()
     }
 
     ImGui::Checkbox("Draw skeleton", &_drawSkeleton);
-    if (_drawSkeleton && not (draw_mode_names_[draw_mode_] == "Points"))
+    if (_drawSkeleton && (draw_mode_names_[draw_mode_] != "Points"))
         set_draw_mode("Points");
-    else
+    else if (!_drawSkeleton)
         set_draw_mode(_previousDrawMode);
 
     if (ImGui::Button("Use median distance"))
