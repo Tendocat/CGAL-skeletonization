@@ -62,6 +62,8 @@ class MeshViewer : public pmp::MeshViewer
          */
         void draw(const std::string &draw_mode) override;
 
-
+        /**
+        * @brief override for keyboard method to customize spacebar behavior
+        */
         void keyboard(int key, int code, int action, int mods) override;
 };
