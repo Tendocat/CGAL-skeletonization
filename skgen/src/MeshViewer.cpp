@@ -6,11 +6,15 @@ MeshViewer::MeshViewer(const std::string& title, int width, int height, bool sho
     pmp::BoundingBox bb = mesh_.bounds();
     set_scene((pmp::vec3)bb.center(), 0.5f * bb.size());
 
+    clear_draw_modes();
+    add_draw_mode("Points");
+    set_draw_mode("Points");
+
     _drawSkeleton = false;
     _breakThreshold = (BREAK_THRESHOLD_MIN + BREAK_THRESHOLD_MAX) / 2;
     _metricMode = Metrics::MEAN;
 
-    set_draw_mode("Hidden Line");
+    // set_draw_mode("Hidden Line");
     update_mesh();
 
     mesh_.set_crease_angle(0);
