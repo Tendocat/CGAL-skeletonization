@@ -30,6 +30,9 @@ class MeshViewer : public pmp::MeshViewer
         // the metric used to compute distance
         Metrics _metricMode;
 
+        // Activated draw mode before viewing squeleton
+        std::string _previousDrawMode;
+
     public:
         MeshViewer() = delete;
         MeshViewer(const std::string& title, int width, int height, bool showgui = true);
@@ -58,4 +61,7 @@ class MeshViewer : public pmp::MeshViewer
          * @brief Draws the mesh according to the current drawing method.
          */
         void draw(const std::string &draw_mode) override;
+
+
+        void keyboard(int key, int code, int action, int mods) override;
 };

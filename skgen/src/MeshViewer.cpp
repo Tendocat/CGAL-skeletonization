@@ -6,9 +6,7 @@ MeshViewer::MeshViewer(const std::string& title, int width, int height, bool sho
     pmp::BoundingBox bb = mesh_.bounds();
     set_scene((pmp::vec3)bb.center(), 0.5f * bb.size());
 
-    clear_draw_modes();
-    add_draw_mode("Points");
-    set_draw_mode("Points");
+    
 
     _drawSkeleton = false;
     _breakThreshold = (BREAK_THRESHOLD_MIN + BREAK_THRESHOLD_MAX) / 2;
@@ -26,6 +24,8 @@ MeshViewer::MeshViewer(const std::string& title, int width, int height, bool sho
 
     _fbMesh.SetTitle("Choose mesh file");
     _fbMesh.SetTypeFilters({ ".off" });
+
+    _previousDrawMode = draw_mode_names_[draw_mode_];
 }
 
 void MeshViewer::process_imgui()
@@ -44,6 +44,10 @@ void MeshViewer::process_imgui()
     }
 
     ImGui::Checkbox("Draw skeleton", &_drawSkeleton);
+    if (_drawSkeleton && not (draw_mode_names_[draw_mode_] == "Points"))
+        set_draw_mode("Points");
+    else
+        set_draw_mode(_previousDrawMode);
 
     if (ImGui::Button("Use median distance"))
     {
@@ -115,5 +119,35 @@ void MeshViewer::draw(const std::string &draw_mode)
     else
     {
         pmp::MeshViewer::draw(draw_mode);
+    }
+}
+
+void MeshViewer::keyboard(int key, int code, int action, int mods)
+{
+    if (action != GLFW_PRESS && action != GLFW_REPEAT)
+        return;
+
+    switch (key)
+    {
+    case GLFW_KEY_SPACE:
+    {
+        if (!_drawSkeleton)
+        {
+            if (++draw_mode_ >= n_draw_modes_)
+                draw_mode_ = 0;
+            std::string mode = draw_mode_names_[draw_mode_];
+            std::cout << "setting draw mode to " << mode << std::endl;
+            _previousDrawMode = mode;
+            set_draw_mode(mode);
+        }
+
+        break;
+    }
+
+    default:
+    {
+        pmp::MeshViewer::keyboard(key, code, action, mods);
+        break;
+    }
     }
 }
