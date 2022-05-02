@@ -72,7 +72,7 @@ void MeshViewer::process_imgui()
 void MeshViewer::load_mesh(const std::string &path)
 {
         mesh_.read(path);
-
+    
         // subdivide edges if there is not enough vertices for color gradient
         if(mesh_.n_vertices() < 100)
         {
@@ -114,11 +114,15 @@ void MeshViewer::draw(const std::string &draw_mode)
 {
     if (_drawSkeleton)
     {
+        mesh_.set_alpha(0.3);
+        mesh_.draw(projection_matrix_, modelview_matrix_, _previousDrawMode);
         _skeleton.draw(projection_matrix_, modelview_matrix_, draw_mode);
+
     }
     else
     {
-        pmp::MeshViewer::draw(draw_mode);
+        mesh_.set_alpha(1);
+        mesh_.draw(projection_matrix_, modelview_matrix_, draw_mode);
     }
 }
 
