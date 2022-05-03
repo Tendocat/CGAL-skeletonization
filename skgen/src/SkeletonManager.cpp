@@ -75,6 +75,9 @@ void SkeletonManager::dist_mesh_skeleton(pmp::SurfaceMesh &mesh, const pmp::Surf
 
 void SkeletonManager::evaluate_skeleton(pmp::SurfaceMesh &mesh, Metrics metric, float break_threshold)
 {
+    if (mesh.n_vertices() == 0)
+        return;
+
     size_t size = mesh.n_vertices();
 
     float threshold = 0;
