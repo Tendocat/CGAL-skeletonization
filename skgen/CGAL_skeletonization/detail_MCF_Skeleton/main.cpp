@@ -64,8 +64,8 @@ int main(int argc, char* argv[])
 	
 	// setup algorithm parameters
 	mcs.set_is_medially_centered(true);
-	mcs.set_medially_centered_speed_tradeoff(10);
-	mcs.set_quality_speed_tradeoff(5);
+	mcs.set_medially_centered_speed_tradeoff(10); // skeleton closer to the medial axis
+	mcs.set_quality_speed_tradeoff(5); // higher quality squeleton
 
 	// 1. Contract the mesh by mean curvature flow.
 	mcs.contract_geometry();
