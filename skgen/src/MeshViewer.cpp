@@ -52,18 +52,18 @@ void MeshViewer::process_imgui()
     if (ImGui::Button("Use median distance"))
     {
         _metricMode = Metrics::MEDIAN;
-        SkeletonManager::evaluate_skeleton(mesh_, _metricMode, (BREAK_THRESHOLD_MAX - _breakThreshold) + BREAK_THRESHOLD_MIN);
+        SkeletonManager::evaluate_skeleton(mesh_, _metricMode, _breakThreshold);
     }
 
     if (ImGui::Button("Use mean distance"))
     {
         _metricMode = Metrics::MEAN;
-        SkeletonManager::evaluate_skeleton(mesh_, _metricMode, (BREAK_THRESHOLD_MAX - _breakThreshold) + BREAK_THRESHOLD_MIN);
+        SkeletonManager::evaluate_skeleton(mesh_, _metricMode, _breakThreshold);
     }
 
     if (ImGui::SliderFloat("Break threshold", &_breakThreshold, BREAK_THRESHOLD_MIN, BREAK_THRESHOLD_MAX))
     {
-        SkeletonManager::evaluate_skeleton(mesh_, _metricMode, (BREAK_THRESHOLD_MAX - _breakThreshold) + BREAK_THRESHOLD_MIN);
+        SkeletonManager::evaluate_skeleton(mesh_, _metricMode, _breakThreshold);
     }
 
     update_mesh();
@@ -94,7 +94,7 @@ void MeshViewer::load_skeleton(const std::string &path)
 {
     _skeleton = SkeletonManager::compute_skeleton(path.c_str());
     SkeletonManager::dist_mesh_skeleton(mesh_, _skeleton);
-    SkeletonManager::evaluate_skeleton(mesh_, _metricMode, (BREAK_THRESHOLD_MAX - _breakThreshold) + BREAK_THRESHOLD_MIN);
+    SkeletonManager::evaluate_skeleton(mesh_, _metricMode, _breakThreshold);
 }
 
 void MeshViewer::update_mesh()
