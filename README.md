@@ -1,18 +1,17 @@
-# Géométrie Numérique - Projet 'Squelettisation'
+# Mesh skeletonization
 
-Technologies utilisées : PMP, C++, CGAL
+Written with: PMP, C++, CGAL
 
 ## Compilation
 
-### Installation des dépendances externes au projet 
-Dépendances : Eigen3, CGAL
+### Dependancies
+Eigen3, CGAL
 
-* Sous Ubuntu : `sudo apt-get install libcgal-dev libeigen3-dev`
-* Sous Windows : Utiliser vcpkg `vcpkg.exe install cgal:x64-windows eigen3:x64-windows`
+* Ubuntu : `sudo apt-get install libcgal-dev libeigen3-dev`
+* Windows : `vcpkg.exe install cgal:x64-windows eigen3:x64-windows`
+`git submodule update --init --recursive`
 
-### Télécharger et compiler les dépendances internes : `git submodule update --init --recursive`
-
-Compiler PMP depuis la racine du projet :
+Compile PMP:
 ```
 cd externals/pmp-library/
 mkdir build
@@ -21,7 +20,7 @@ cmake -S ../ -B ./
 cmake --build ./
 ```
 
-Compiler le projet depuis la racine du projet :
+Compile the project from the project's root::
 ```
 cd ../
 mkdir build/
@@ -30,15 +29,16 @@ cmake ../squelettisation
 cmake --build ./
 ```
 
-## Exécution
+## Execution
 
-Pour lancer le programme : `SKGen [-h] [-p <path_to_mesh>] [-x <width>] [-y <height>]`
+`SKGen [-h] [-p <path_to_mesh>] [-x <width>] [-y <height>]`
 
 ```
 Available parameters:
 
   -h    --help
    Show help and exit.
+   
   -p    --path
    Path to the requested mesh
    This parameter is optional. The default value is ''.
